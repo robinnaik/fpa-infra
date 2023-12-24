@@ -8,36 +8,6 @@ resource "google_service_account" "default" {
   display_name = "Service Account"
 }
 
-resource "google_compute_router" "nat-router" {
-  name    = "nat-router"
-  region  = "asia-south1"
-  network = "fpa-be-network"
-
-  bgp {
-    asn = 64514
-  }
-}
-
-resource "google_compute_address" "address" {
-  count  = 2
-  name   = "nat-manual-ip-${count.index}"
-  region = "asia-south1"
-}
-
-resource "google_compute_router_nat" "nat" {
-  name                               = "google-nat"
-  router                             = google_compute_router.nat-router.name
-  region                             = google_compute_router.nat-router.region
-  nat_ip_allocate_option = "MANUAL_ONLY"
-  nat_ips                = google_compute_address.address.*.self_link
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-
-  log_config {
-    enable = true
-    filter = "ERRORS_ONLY"
-  }
-}
-
 data "google_client_config" "provider" {}
 
 provider "kubernetes" {
@@ -53,16 +23,23 @@ resource "google_container_cluster" "primary" {
   location           = "asia-south1"
   network            = "projects/fpa-be/global/networks/fpa-be-network"
   subnetwork         = "projects/fpa-be/regions/asia-south1/subnetworks/fpa-be-subnet1"
+  remove_default_node_pool = true
   initial_node_count = 1
-  private_cluster_config {
-    enable_private_nodes = true
-    enable_private_endpoint = true
-    master_ipv4_cidr_block = "172.16.0.32/28"
+}
+
+resource "google_container_node_pool" "primary_cluster_node_pool" {
+  name       = "fpa-be-node-pool"
+  cluster    = google_container_cluster.primary.id
+  autoscaling {
+    min_node_count = 2
+    max_node_count = 10
   }
 
-  master_authorized_networks_config {}
-
   node_config {
+    preemptible  = true
+    machine_type = "e2-medium"
+    disk_size_gb = 10
+
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.default.email
     oauth_scopes = [
@@ -72,9 +49,5 @@ resource "google_container_cluster" "primary" {
       app = "fpa"
       type = "backend"
     }
-  }
-  timeouts {
-    create = "30m"
-    update = "40m"
   }
 }
