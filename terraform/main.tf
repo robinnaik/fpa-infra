@@ -8,6 +8,14 @@ resource "google_service_account" "default" {
   display_name = "Service Account"
 }
 
+resource "google_project_iam_binding" "fpa_gke_service_account_binding" {
+  project = "fpa-be"
+  role    = "roles/artifactregistry.reader"
+  members  = [
+    "serviceAccount:${google_service_account.default.email}"
+  ]
+}
+
 data "google_client_config" "provider" {}
 
 provider "kubernetes" {
