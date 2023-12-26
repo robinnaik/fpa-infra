@@ -32,6 +32,7 @@ resource "google_container_cluster" "primary" {
   network            = "projects/fpa-be/global/networks/fpa-be-network"
   subnetwork         = "projects/fpa-be/regions/asia-south1/subnetworks/fpa-be-subnet1"
   remove_default_node_pool = true
+  deletion_protection=false
   initial_node_count = 1
 }
 
