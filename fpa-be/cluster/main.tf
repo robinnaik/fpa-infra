@@ -1,15 +1,15 @@
 provider "google" {
-  project = "fpa-be"
-  region  = "asia-south1"
+  project = var.project_id
+  region  = var.region
 }
 
 resource "google_service_account" "default" {
-  account_id   = "fpa-gke-service-account"
+  account_id   = "${var.gke_service_account}-${var.env}"
   display_name = "Service Account"
 }
 
 resource "google_project_iam_binding" "fpa_gke_service_account_binding" {
-  project = "fpa-be"
+  project = var.project_id
   role    = "roles/artifactregistry.reader"
   members  = [
     "serviceAccount:${google_service_account.default.email}"
@@ -27,10 +27,10 @@ provider "kubernetes" {
 }
 
 resource "google_container_cluster" "primary" {
-  name               = "fpa-be-dev"
-  location           = "asia-south1"
-  network            = "projects/fpa-be/global/networks/fpa-be-network"
-  subnetwork         = "projects/fpa-be/regions/asia-south1/subnetworks/fpa-be-subnet1"
+  name               = "${var.cluster_name}-${var.env}"
+  location           = var.region
+  network            = "${var.project_id}-${var.env}-network"
+  subnetwork         = "${var.project_id}-${var.env}-subnet1"
   remove_default_node_pool = true
   deletion_protection=false
   initial_node_count = 1
