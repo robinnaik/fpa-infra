@@ -4,7 +4,7 @@ provider "google" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = "${var.gke_service_account}-${var.env}"
+  account_id   = "${var.project_id}-gke-service-account-${var.env}"
   display_name = "Service Account"
 }
 
@@ -27,7 +27,7 @@ provider "kubernetes" {
 }
 
 resource "google_container_cluster" "primary" {
-  name               = "${var.cluster_name}-${var.env}"
+  name               = "${var.project_id}-${var.env}"
   location           = var.region
   network            = "${var.project_id}-${var.env}-network"
   subnetwork         = "${var.project_id}-${var.env}-subnet1"
@@ -56,7 +56,7 @@ resource "google_container_node_pool" "primary_cluster_node_pool" {
     ]
     labels = {
       app = "fpa"
-      type = "backend"
+      type = "frontend"
     }
   }
 }

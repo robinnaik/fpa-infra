@@ -27,3 +27,8 @@ variable "secondary-range-2" {
   description = "Secondary Range 1 for pods"
   default = "10.160.102.0/24"
 }
+
+variable "peer_project" {
+  description = "Peer network"
+  default = "fpa-fe"
+}

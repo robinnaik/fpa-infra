@@ -51,8 +51,8 @@ resource "google_compute_firewall" "tcp" {
   ] 
 }
 
-resource "google_compute_network_peering" "peering" {
-  name         = "peering-fe-to-be"
+resource "google_compute_network_peering" "vpc_peering" {
+  name         = "${var.project_id}-to-${var.peer_project}-peering"
   network      = google_compute_network.vpc_network.self_link
-  peer_network = "projects/fpa-be/global/networks/fpa-be-dev-network"
+  peer_network = "projects/${var.peer_project}/global/networks/${var.peer_project}-${var.env}-network"
 }

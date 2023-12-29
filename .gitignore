@@ -1,10 +1,4 @@
 Scribble
-fpa-be/network/terraform.*
-fpa-be/network/.terraform
-fpa-be/network/.terraform.*
-fpa-be/cluster/terraform.*
-fpa-be/cluster/.terraform
-fpa-be/cluster/.terraform.*
-fpa-fe/network/terraform.*
-fpa-fe/network/.terraform
-fpa-fe/network/.terraform.*
+terraform.*
+.terraform.*
+terraform-*.*
