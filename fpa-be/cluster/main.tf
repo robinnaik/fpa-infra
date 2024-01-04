@@ -27,13 +27,24 @@ provider "kubernetes" {
 }
 
 resource "google_container_cluster" "primary" {
-  name               = "${var.cluster_name}-${var.env}"
+  name               = "${var.project_id}-${var.env}"
   location           = var.region
   network            = "${var.project_id}-${var.env}-network"
   subnetwork         = "${var.project_id}-${var.env}-subnet1"
   remove_default_node_pool = true
   deletion_protection=false
   initial_node_count = 1
+
+  private_cluster_config {
+    enable_private_endpoint = false
+    enable_private_nodes   = true 
+    master_ipv4_cidr_block = "10.192.8.16/28"
+  }
+
+  ip_allocation_policy{
+    cluster_secondary_range_name = "${var.project_id}-${var.env}-cluster-ips"
+    services_secondary_range_name = "${var.project_id}-${var.env}-service-ips"
+  }
 }
 
 resource "google_container_node_pool" "primary_cluster_node_pool" {
@@ -43,7 +54,6 @@ resource "google_container_node_pool" "primary_cluster_node_pool" {
     min_node_count = 2
     max_node_count = 10
   }
-
   node_config {
     preemptible  = true
     machine_type = "e2-medium"
@@ -58,5 +68,9 @@ resource "google_container_node_pool" "primary_cluster_node_pool" {
       app = "fpa"
       type = "backend"
     }
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
   }
+    
 }

@@ -3,11 +3,6 @@ variable "project_id" {
   default = "fpa-be"
 }
 
-variable "cluster_name" {
-  description = "The name for the GKE cluster"
-  default     = "fpa-be"
-}
-
 variable "env" {
   description = "The name for the GKE cluster"
   default     = "dev"
