@@ -15,20 +15,30 @@ variable "region" {
 
 variable "primary-subnet-range" {
   description = "Primary Subet Range"
-  default = "10.160.100.0/24"
+  default = "10.192.0.0/21"
 }
 
-variable "secondary-range-1" {
-  description = "Secondary Range 1 for pods"
-  default = "10.160.101.0/24"
+variable "proxy-only-subnet-range" {
+  description = "Proxy only subnet range for internal regional load balancer"
+  default = "10.192.34.0/23"
 }
 
-variable "secondary-range-2" {
-  description = "Secondary Range 1 for pods"
-  default = "10.160.102.0/24"
+variable "secondary-cluster-ips" {
+  description = "Secondary Range to be used for Cluster IPs"
+  default = "10.192.16.0/21"
+}
+
+variable "secondary-service-ips" {
+  description = "Secondary Range to be used by Services"
+  default = "10.192.24.0/21"
 }
 
 variable "peer_project" {
   description = "Peer network"
   default = "fpa-fe"
+}
+
+variable "peer-subnet-range" {
+  description = "Peer Subet Range"
+  default = "10.192.80.0/21"
 }
