@@ -1,0 +1,1 @@
+# Get project, env and resource category on commandline and deploy accordingly
