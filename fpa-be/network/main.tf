@@ -14,13 +14,22 @@ resource "google_compute_subnetwork" "vpc_subnet" {
   region        = var.region
   network       = google_compute_network.vpc_network.id
   secondary_ip_range {
-    range_name    = "${var.project_id}-${var.env}-secondary-range1"
-    ip_cidr_range = var.secondary-range-1
+    range_name    = "${var.project_id}-${var.env}-cluster-ips"
+    ip_cidr_range = var.secondary-cluster-ips
   }
   secondary_ip_range {
-    range_name    = "${var.project_id}-${var.env}-secondary-range2"
-    ip_cidr_range = var.secondary-range-2
+    range_name    = "${var.project_id}-${var.env}-service-ips"
+    ip_cidr_range = var.secondary-service-ips
   }
+}
+
+resource "google_compute_subnetwork" "vpc_subnet_proxy_only" {
+  name          = "${var.project_id}-${var.env}-proxy-only"
+  ip_cidr_range = var.proxy-only-subnet-range
+  purpose       = "REGIONAL_MANAGED_PROXY"
+  role          = "ACTIVE"
+  region        = var.region
+  network       = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_firewall" "icmp" {
@@ -43,11 +52,12 @@ resource "google_compute_firewall" "tcp" {
 
   allow {
     protocol = "tcp"
-    ports = ["22","8080","80"]
+    ports = ["80","8080"]
   }
   
   source_ranges = [
-    var.primary-subnet-range
+    var.primary-subnet-range,
+    var.peer-subnet-range
   ] 
 }
 
