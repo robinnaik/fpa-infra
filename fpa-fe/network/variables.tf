@@ -15,17 +15,17 @@ variable "region" {
 
 variable "primary-subnet-range" {
   description = "Primary Subet Range"
-  default = "10.160.200.0/24"
+  default = "10.192.64.0/21"
 }
 
-variable "secondary-range-1" {
-  description = "Secondary Range 1 for pods"
-  default = "10.160.201.0/24"
+variable "secondary-cluster-ips" {
+  description = "Secondary Range to be used for Cluster IPs"
+  default = "10.192.80.0/21"
 }
 
-variable "secondary-range-2" {
-  description = "Secondary Range 1 for pods"
-  default = "10.160.202.0/24"
+variable "secondary-service-ips" {
+  description = "Secondary Range to be used by Services"
+  default = "10.192.88.0/21"
 }
 
 variable "peer_project" {

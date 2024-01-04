@@ -14,12 +14,12 @@ resource "google_compute_subnetwork" "vpc_subnet" {
   region        = var.region
   network       = google_compute_network.vpc_network.id
   secondary_ip_range {
-    range_name    = "${var.project_id}-${var.env}-secondary-range1"
-    ip_cidr_range = var.secondary-range-1
+    range_name    = "${var.project_id}-${var.env}-cluster-ips"
+    ip_cidr_range = var.secondary-cluster-ips
   }
   secondary_ip_range {
-    range_name    = "${var.project_id}-${var.env}-secondary-range2"
-    ip_cidr_range = var.secondary-range-2
+    range_name    = "${var.project_id}-${var.env}-service-ips"
+    ip_cidr_range = var.secondary-service-ips
   }
 }
 
