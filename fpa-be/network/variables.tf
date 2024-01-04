@@ -38,7 +38,7 @@ variable "peer_project" {
   default = "fpa-fe"
 }
 
-variable "peer-subnet-range" {
+variable "peer-pod-ip-range" {
   description = "Peer Subet Range"
   default = "10.192.80.0/21"
 }

@@ -57,7 +57,7 @@ resource "google_compute_firewall" "tcp" {
   
   source_ranges = [
     var.primary-subnet-range,
-    var.peer-subnet-range
+    var.peer-pod-ip-range
   ] 
 }
 
@@ -65,4 +65,27 @@ resource "google_compute_network_peering" "vpc_peering" {
   name         = "${var.project_id}-to-${var.peer_project}-peering"
   network      = google_compute_network.vpc_network.self_link
   peer_network = "projects/${var.peer_project}/global/networks/${var.peer_project}-${var.env}-network"
+}
+
+resource "google_compute_router" "nat-router" {
+  name    = "my-router"
+  region  = var.region
+  network = google_compute_network.vpc_network.id
+
+  bgp {
+    asn = 64514
+  }
+}
+
+resource "google_compute_router_nat" "nat" {
+  name                               = "${var.project_id}-${var.env}-nat"
+  router                             = google_compute_router.nat-router.name
+  region                             = google_compute_router.nat-router.region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+
+  log_config {
+    enable = true
+    filter = "ERRORS_ONLY"
+  }
 }
