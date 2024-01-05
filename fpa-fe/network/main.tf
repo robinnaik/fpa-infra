@@ -29,12 +29,7 @@ resource "google_compute_firewall" "icmp" {
 
   allow {
     protocol = "icmp"
-  }
-  
-  source_ranges = [
-    var.primary-subnet-range
-  ]
-  
+  }  
 }
 
 resource "google_compute_firewall" "tcp" {
@@ -43,12 +38,8 @@ resource "google_compute_firewall" "tcp" {
 
   allow {
     protocol = "tcp"
-    ports = ["22","8080","80"]
+    ports = ["8080","80","443"]
   }
-  
-  source_ranges = [
-    var.primary-subnet-range
-  ] 
 }
 
 resource "google_compute_network_peering" "vpc_peering" {

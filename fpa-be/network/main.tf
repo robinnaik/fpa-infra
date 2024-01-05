@@ -38,12 +38,7 @@ resource "google_compute_firewall" "icmp" {
 
   allow {
     protocol = "icmp"
-  }
-  
-  source_ranges = [
-    var.primary-subnet-range
-  ]
-  
+  }  
 }
 
 resource "google_compute_firewall" "tcp" {
@@ -52,12 +47,13 @@ resource "google_compute_firewall" "tcp" {
 
   allow {
     protocol = "tcp"
-    ports = ["80","8080"]
+    ports = ["80","8080","443"]
   }
-  
+  #Allow ingress from 
+  #Need to add firewall rule for proxy to connect to pods
   source_ranges = [
-    var.primary-subnet-range,
-    var.peer-pod-ip-range
+    var.peer-pod-ip-range,
+    var.proxy-only-subnet-range
   ] 
 }
 
