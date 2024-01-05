@@ -4,7 +4,7 @@ provider "google" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = "${var.gke_service_account}-${var.env}"
+  account_id   = "${var.project_id}-gke-service-account-${var.env}"
   display_name = "Service Account"
 }
 
@@ -15,6 +15,7 @@ resource "google_project_iam_binding" "gke_service_account_binding" {
     "serviceAccount:${google_service_account.default.email}"
   ]
 }
+
 
 data "google_client_config" "provider" {}
 
