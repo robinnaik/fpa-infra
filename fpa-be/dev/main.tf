@@ -1,5 +1,5 @@
 provider "google" {
-  project = "fpa-fe"
+  project = "fpa-be"
 }
 
 # Create VPC Network
@@ -14,6 +14,16 @@ module "vpc_network" {
     peer_project            = var.peer_project
 }
 
+#Proxy only subnet (used by internal application loadbalancers)
+module "proxy_only_subnet" {
+    source                  = "../../modules/proxy_only_subnet"
+    project_id              = var.project_id
+    region                  = var.region
+    env                     = var.env
+    vpc_network_id          = module.vpc_network.network_id
+    proxy_only_subnet_range = var.proxy_only_subnet_ip_range
+}
+
 # Create firewall rule
 module "firewall_rules" {
     source                  = "../../modules/firewall_rules"
@@ -25,7 +35,7 @@ module "firewall_rules" {
     tcp_ports               = ["80","8080","443","22"]
 }
 
-# Create Cloud NAT (This is to be removed once internal loadbalancer start working for backend)
+# Create Cloud NAT to allow services to connect to MongoDB Cloud
 module "cloud_nat" {
     source                  = "../../modules/cloud_nat"
     project_id              = var.project_id
@@ -57,3 +67,5 @@ module "cluster" {
     service_ip_range            = module.vpc_network.secondary-service-ips
     app_type                    = "backend"
 }
+
+

@@ -18,11 +18,6 @@ variable "primary-subnet-range" {
   default = "10.192.0.0/21"
 }
 
-variable "proxy-only-subnet-range" {
-  description = "Proxy only subnet range for internal regional load balancer"
-  default = "10.192.34.0/23"
-}
-
 variable "secondary-cluster-ips" {
   description = "Secondary Range to be used for Cluster IPs"
   default = "10.192.16.0/21"
@@ -33,12 +28,17 @@ variable "secondary-service-ips" {
   default = "10.192.24.0/21"
 }
 
+variable "cluster-control-plane-cidr" {
+  description = "CIDR block for control plane of GKE"
+  default = "10.192.8.16/28"
+}
+
 variable "peer_project" {
   description = "Peer network"
   default = "fpa-fe"
 }
 
-variable "peer-pod-ip-range" {
-  description = "Peer Subet Range"
-  default = "10.192.80.0/21"
+variable "proxy_only_subnet_ip_range" {
+  description = "Proxy only subnet for internal application loadbalancer"
+  default = "10.192.34.0/23"
 }
