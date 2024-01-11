@@ -25,15 +25,6 @@ module "firewall_rules" {
     tcp_ports               = ["80","8080","443","22"]
 }
 
-# Create Cloud NAT (This is to be removed once internal loadbalancer start working for backend)
-module "cloud_nat" {
-    source                  = "../../modules/cloud_nat"
-    project_id              = var.project_id
-    env                     = var.env
-    vpc_network_name        = module.vpc_network.network_name
-    region                  = var.region
-}
-
 # Create Peering
 module "cloud_vpc_peering" {
     source                  = "../../modules/vpc_peering"
