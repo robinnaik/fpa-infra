@@ -14,16 +14,6 @@ module "vpc_network" {
     peer_project            = var.peer_project
 }
 
-#Proxy only subnet (used by internal application loadbalancers)
-module "proxy_only_subnet" {
-    source                  = "../../modules/proxy_only_subnet"
-    project_id              = var.project_id
-    region                  = var.region
-    env                     = var.env
-    vpc_network_id          = module.vpc_network.network_id
-    proxy_only_subnet_range = var.proxy_only_subnet_ip_range
-}
-
 # Create firewall rule
 module "firewall_rules" {
     source                  = "../../modules/firewall_rules"
