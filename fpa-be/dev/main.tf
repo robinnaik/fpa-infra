@@ -14,7 +14,16 @@ module "vpc_network" {
     peer_project            = var.peer_project
 }
 
+# Adding subnet
+resource "google_compute_subnetwork" "loadbalancer-subnet" {
+  name          = "${var.project_id}-${var.env}-loadbalancer-subnet"
+  ip_cidr_range = var.ip-loadbalancer-subnet-ip-range
+  region        = var.region
+  network       = module.vpc_network.network_id
+}
+
 # Create firewall rule
+# TODO: REview firewall rules to make it more restricted
 module "firewall_rules" {
     source                  = "../../modules/firewall_rules"
     project_id              = var.project_id
@@ -57,5 +66,3 @@ module "cluster" {
     service_ip_range            = module.vpc_network.secondary-service-ips
     app_type                    = "backend"
 }
-
-

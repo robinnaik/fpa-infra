@@ -30,7 +30,12 @@ variable "secondary-service-ips" {
 
 variable "cluster-control-plane-cidr" {
   description = "CIDR block for control plane of GKE"
-  default = "10.192.8.16/28"
+  default = "10.192.14.0/28"
+}
+
+variable "ip-loadbalancer-subnet-ip-range" {
+  description = "CIDR block for Loadbalancer subnet plane of GKE"
+  default = "10.192.12.0/26"
 }
 
 variable "peer_project" {
