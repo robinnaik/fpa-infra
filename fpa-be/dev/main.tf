@@ -66,3 +66,12 @@ module "cluster" {
     service_ip_range            = module.vpc_network.secondary-service-ips
     app_type                    = "backend"
 }
+
+## Please create bucket manually for terraform as it is one time creation (can be automated later)
+#TODO: Automate creation of bucket later
+terraform {
+ backend "gcs" {
+   bucket  = "${var.project_id}-terraform"
+   prefix  = "terraform/state"
+ }
+}
