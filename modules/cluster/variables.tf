@@ -38,7 +38,7 @@ variable "service_ip_range" {
   type = string
 }
 
-variable "app_type" {
+variable "app_stack" {
   description = "Type of app to be deployed"
   type = string
 }

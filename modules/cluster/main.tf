@@ -52,7 +52,7 @@ resource "google_container_cluster" "primary" {
     ]
     labels = {
       app = "fpa"
-      type = var.app_type
+      stack = var.app_stack
       env = var.env
     }
     metadata = {

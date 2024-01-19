@@ -64,5 +64,5 @@ module "cluster" {
     cluster_control_plan_cidr   = var.cluster-control-plane-cidr
     cluster_ip_range            = module.vpc_network.secondary-cluster-ips
     service_ip_range            = module.vpc_network.secondary-service-ips
-    app_type                    = "backend"
+    app_stack                   = "backend"
 }
