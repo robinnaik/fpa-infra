@@ -1,4 +1,3 @@
-#TODO: To be removed once backend loadbalancer work with internal-gce
 resource "google_compute_router" "nat-router" {
   name    = "my-router"
   region  = var.region
@@ -9,7 +8,6 @@ resource "google_compute_router" "nat-router" {
   }
 }
 
-#TODO: To be removed once backend loadbalancer work with internal-gce
 resource "google_compute_router_nat" "nat" {
   name                               = "${var.project_id}-${var.env}-nat"
   router                             = google_compute_router.nat-router.name
