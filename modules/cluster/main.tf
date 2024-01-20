@@ -42,7 +42,7 @@ resource "google_container_cluster" "primary" {
 
   node_config {
     preemptible  = true
-    machine_type = "e2-medium"
+    machine_type = "n1-standard-1"
     disk_size_gb = 10
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
