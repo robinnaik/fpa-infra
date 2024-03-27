@@ -1,0 +1,2 @@
+- Create Project for the env with naming convention fpa-<b><i>Env name</b></i>-<b><i>Env number</b></i> e.g. fpa-dev-1
+- Create bucket name <i><b>project id</b></i>-terraform-state in the CICD Project
