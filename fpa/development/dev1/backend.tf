@@ -3,6 +3,6 @@
 terraform {
  backend "gcs" {
    bucket  = "fpa-dev-1-terraform-state"
-   prefix  = "terraform/state"
+   prefix  = "terraform/state/dev1"
  }
 }

@@ -3,6 +3,6 @@
 terraform {
  backend "gcs" {
    bucket  = "fpa-b-cicd-terraform-state"
-   prefix  = "terraform/state"
+   prefix  = "terraform/state/cicd"
  }
 }
