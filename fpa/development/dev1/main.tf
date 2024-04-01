@@ -9,6 +9,7 @@ module "service-accounts" {
 }
 
 module "login-service" {
+  project_number  = var.project_number
   source          = "../modules/fpa_backend_services"
   service_name    = "fpa-login-service"
   region          = var.region
@@ -18,6 +19,7 @@ module "login-service" {
 }
 
 module "asset-management-service" {
+  project_number  = var.project_number
   source          = "../modules/fpa_backend_services"
   service_name    = "fpa-asset-management-service"
   region          = var.region

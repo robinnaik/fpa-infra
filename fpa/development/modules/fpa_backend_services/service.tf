@@ -1,5 +1,3 @@
-
-
 resource "google_cloud_run_v2_service" "default" {
   name = "${var.service_name}-${var.env}"
   location = var.region
@@ -20,7 +18,7 @@ resource "google_cloud_run_v2_service" "default" {
         value_source {
           secret_key_ref {
             version = 1
-            secret = "projects/606010765839/secrets/mongo-db-connection-string"
+            secret = "projects/${var.project_number}/secrets/mongo-db-connection-string"
           }
         }
       }

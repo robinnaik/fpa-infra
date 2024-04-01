@@ -1,3 +1,8 @@
+variable "project_number" {
+  description = "The project number"
+  type = string
+}
+
 variable "service_name" {
   description = "Name of Google Cloud Run Service"
   type = string
