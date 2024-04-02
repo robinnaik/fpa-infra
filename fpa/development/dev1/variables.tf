@@ -9,12 +9,16 @@ variable "project_number" {
 }
 
 variable "env" {
-  description = "The name for the GKE cluster"
+  description = "The name for the GKE cloud run"
   default     = "dev-1"
 }
 
 variable "region" {
-  description = "Region for the cluster"
+  description = "Region for the cloud run"
   default = "asia-south1"
 }
 
+variable "primary-subnet-range" {
+  description = "Region for the cloud run"
+  default = "10.160.0.0/16"
+}

@@ -19,11 +19,21 @@ variable "service_account" {
 }
 
 variable "env" {
-  description = "The name for the GKE cluster"
+  description = "The name for the GKE cloud run"
   type = string
 }
 
 variable "region" {
-  description = "Region for the cluster"
+  description = "Region for the cloud run"
+  type = string
+}
+
+variable "network" {
+  description = "Network for the cloud run"
+  type = string
+}
+
+variable "subnet" {
+  description = "Subnet for the cloud run"
   type = string
 }

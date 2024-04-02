@@ -47,3 +47,13 @@ variable "income_mgmt_api" {
   description = "Income Management API"
   type = string
 }
+
+variable "network" {
+  description = "Network for the cloud run"
+  type = string
+}
+
+variable "subnet" {
+  description = "Subnet for the cloud run"
+  type = string
+}

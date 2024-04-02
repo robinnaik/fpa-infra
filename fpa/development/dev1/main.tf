@@ -8,6 +8,24 @@ module "service-accounts" {
   project_number  = var.project_number
 }
 
+# Create VPC Network
+module "vpc_network" {
+    source                  = "../modules/network"
+    project_id              = var.project_id
+    region                  = var.region
+    env                     = var.env
+    primary-subnet-range    = var.primary-subnet-range
+}
+
+# Create Cloud NAT to allow services to connect to MongoDB Cloud
+module "cloud_nat" {
+    source                  = "../modules/cloud_nat"
+    project_id              = var.project_id
+    env                     = var.env
+    vpc_network_name        = module.vpc_network.network_name
+    region                  = var.region
+}
+
 module "login-service" {
   project_number  = var.project_number
   source          = "../modules/fpa_backend_services"
@@ -16,6 +34,8 @@ module "login-service" {
   env             = var.env
   service_port    = "26001"
   service_account = module.service-accounts.cloud_run_sa_email
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
 
 module "asset-management-service" {
@@ -26,6 +46,8 @@ module "asset-management-service" {
   env             = var.env
   service_port    = "26051"
   service_account = module.service-accounts.cloud_run_sa_email
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
 
 module "liability-management-service" {
@@ -36,6 +58,8 @@ module "liability-management-service" {
   env             = var.env
   service_port    = "26052"
   service_account = module.service-accounts.cloud_run_sa_email
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
 
 module "expense-management-service" {
@@ -46,6 +70,8 @@ module "expense-management-service" {
   env             = var.env
   service_port    = "26053"
   service_account = module.service-accounts.cloud_run_sa_email
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
 
 module "income-management-service" {
@@ -56,6 +82,8 @@ module "income-management-service" {
   env             = var.env
   service_port    = "26054"
   service_account = module.service-accounts.cloud_run_sa_email
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
 
 module "ui-service" {
@@ -70,4 +98,6 @@ module "ui-service" {
   liability_mgmt_api  = "${module.liability-management-service.uri}/finmgmt/liabilities"
   expense_mgmt_api  = "${module.expense-management-service.uri}/finmgmt/expenses"
   income_mgmt_api  = "${module.income-management-service.uri}/finmgmt/incomes"
+  network         = module.vpc_network.network_name
+  subnet          = module.vpc_network.subnet1_name
 }
