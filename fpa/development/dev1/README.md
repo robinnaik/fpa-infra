@@ -1,1 +1,2 @@
 Provide "service-<i><b>cloud run project number</b></i>@serverless-robot-prod.iam.gserviceaccount.com" Artifact Registry Reader access to project which holds the images.
+VPC with subnet and Cloud NAT to be created

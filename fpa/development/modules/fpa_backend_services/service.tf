@@ -1,7 +1,8 @@
 resource "google_cloud_run_v2_service" "default" {
   name = "${var.service_name}-${var.env}"
   location = var.region
-  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"    
+  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  launch_stage = "BETA"    
   template {
     service_account = var.service_account
     containers {
@@ -22,6 +23,17 @@ resource "google_cloud_run_v2_service" "default" {
           }
         }
       }
+      env {
+        name = "CALCULATORS_BASE_URL"
+        value = "https://asia-south1-fpa-dev-1.cloudfunctions.net"
+      }
+    }
+    vpc_access{
+      network_interfaces {
+        network = "default"
+        subnetwork = "default"
+      }
+      egress = "ALL_TRAFFIC"
     }
   }
 }

@@ -27,3 +27,23 @@ variable "login_api" {
   description = "Login API"
   type = string
 }
+
+variable "asset_mgmt_api" {
+  description = "Asset Management API"
+  type = string
+}
+
+variable "liability_mgmt_api" {
+  description = "Liability Management API"
+  type = string
+}
+
+variable "expense_mgmt_api" {
+  description = "Expense Management API"
+  type = string
+}
+
+variable "income_mgmt_api" {
+  description = "Income Management API"
+  type = string
+}

@@ -3,7 +3,8 @@
 resource "google_cloud_run_v2_service" "default" {
   name = "${var.service_name}-${var.env}"
   location = var.region
-  ingress = "INGRESS_TRAFFIC_ALL"    
+  ingress = "INGRESS_TRAFFIC_ALL"
+  launch_stage = "BETA"    
   template {
     service_account = var.service_account
     containers {
@@ -15,6 +16,29 @@ resource "google_cloud_run_v2_service" "default" {
         name = "LOGIN_API"
         value = var.login_api
       }
+      env {
+        name = "ASSETS_API"
+        value = var.asset_mgmt_api
+      }
+      env {
+        name = "LIABILITIES_API"
+        value = var.liability_mgmt_api
+      }
+      env {
+        name = "EXPENSES_API"
+        value = var.expense_mgmt_api
+      }
+      env {
+        name = "INCOMES_API"
+        value = var.income_mgmt_api
+      }
+    }
+    vpc_access{
+      network_interfaces {
+        network = "default"
+        subnetwork = "default"
+      }
+      egress = "ALL_TRAFFIC"
     }
   }
 }
