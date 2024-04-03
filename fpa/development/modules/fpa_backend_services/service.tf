@@ -23,10 +23,6 @@ resource "google_cloud_run_v2_service" "default" {
           }
         }
       }
-      env {
-        name = "CALCULATORS_BASE_URL"
-        value = "https://asia-south1-fpa-dev-1.cloudfunctions.net"
-      }
     }
     vpc_access{
       network_interfaces {
