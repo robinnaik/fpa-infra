@@ -86,6 +86,7 @@ module "income-management-service" {
   subnet          = module.vpc_network.subnet1_name
 }
 
+# network and subnet required for internal communication
 module "ui-service" {
   source          = "../modules/fpa_frontend_services"
   service_name    = "fpa-ui-service"
