@@ -26,61 +26,14 @@ module "cloud_nat" {
     region                  = var.region
 }
 
-module "login-service" {
+module "backend-services" {
+  for_each = var.services
   project_number  = var.project_number
   source          = "../modules/fpa_backend_services"
-  service_name    = "fpa-login-service"
+  service_name    = "fpa-${each.key}-service"
   region          = var.region
   env             = var.env
-  service_port    = "26001"
-  service_account = module.service-accounts.cloud_run_sa_email
-  network         = module.vpc_network.network_name
-  subnet          = module.vpc_network.subnet1_name
-}
-
-module "asset-management-service" {
-  project_number  = var.project_number
-  source          = "../modules/fpa_backend_services"
-  service_name    = "fpa-asset-management-service"
-  region          = var.region
-  env             = var.env
-  service_port    = "26051"
-  service_account = module.service-accounts.cloud_run_sa_email
-  network         = module.vpc_network.network_name
-  subnet          = module.vpc_network.subnet1_name
-}
-
-module "liability-management-service" {
-  project_number  = var.project_number
-  source          = "../modules/fpa_backend_services"
-  service_name    = "fpa-liability-management-service"
-  region          = var.region
-  env             = var.env
-  service_port    = "26052"
-  service_account = module.service-accounts.cloud_run_sa_email
-  network         = module.vpc_network.network_name
-  subnet          = module.vpc_network.subnet1_name
-}
-
-module "expense-management-service" {
-  project_number  = var.project_number
-  source          = "../modules/fpa_backend_services"
-  service_name    = "fpa-expense-management-service"
-  region          = var.region
-  env             = var.env
-  service_port    = "26053"
-  service_account = module.service-accounts.cloud_run_sa_email
-  network         = module.vpc_network.network_name
-  subnet          = module.vpc_network.subnet1_name
-}
-
-module "income-management-service" {
-  project_number  = var.project_number
-  source          = "../modules/fpa_backend_services"
-  service_name    = "fpa-income-management-service"
-  region          = var.region
-  env             = var.env
-  service_port    = "26054"
+  service_port    = each.value.port
   service_account = module.service-accounts.cloud_run_sa_email
   network         = module.vpc_network.network_name
   subnet          = module.vpc_network.subnet1_name
@@ -94,11 +47,11 @@ module "ui-service" {
   env             = var.env
   service_port    = "80"
   service_account = module.service-accounts.cloud_run_sa_email
-  login_api       = "${module.login-service.uri}/login"
-  asset_mgmt_api  = "${module.asset-management-service.uri}/finmgmt/assets"
-  liability_mgmt_api  = "${module.liability-management-service.uri}/finmgmt/liabilities"
-  expense_mgmt_api  = "${module.expense-management-service.uri}/finmgmt/expenses"
-  income_mgmt_api  = "${module.income-management-service.uri}/finmgmt/incomes"
+  login_api       = "${module.backend-services["login"].uri}/login"
+  asset_mgmt_api  = "${module.backend-services["asset-management"].uri}/finmgmt/assets"
+  liability_mgmt_api  = "${module.backend-services["liability-management"].uri}/finmgmt/liabilities"
+  expense_mgmt_api  = "${module.backend-services["expense-management"].uri}/finmgmt/expenses"
+  income_mgmt_api  = "${module.backend-services["income-management"].uri}/finmgmt/incomes"
   network         = module.vpc_network.network_name
   subnet          = module.vpc_network.subnet1_name
 }
