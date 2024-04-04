@@ -3,7 +3,17 @@ variable "project_id" {
   default = "fpa-b-cicd"
 }
 
-variable "region" {
-  description = "Region for the cluster"
-  default = "asia-south1"
+variable "build_region" {
+  description = "Building region"
+  default = "global"
 }
+
+variable "services" {
+  default = ["common",
+              "login-service",
+              "asset-management-service",
+              "liability-management-service",
+              "expense-management-service",
+              "income-management-service"
+            ]
+  }
