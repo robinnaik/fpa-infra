@@ -8,7 +8,7 @@ resource "google_cloud_run_v2_service" "default" {
   template {
     service_account = var.service_account
     containers {
-      image = "asia-south1-docker.pkg.dev/fpa-fe/docker-images/${var.service_name}"
+      image = "asia-south1-docker.pkg.dev/fpa-b-cicd/docker-images/${var.service_name}"
       ports {
         container_port = var.service_port
       }

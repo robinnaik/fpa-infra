@@ -14,6 +14,7 @@ variable "services" {
               "asset-management-service",
               "liability-management-service",
               "expense-management-service",
-              "income-management-service"
+              "income-management-service",
+              "ui-service"
             ]
   }
